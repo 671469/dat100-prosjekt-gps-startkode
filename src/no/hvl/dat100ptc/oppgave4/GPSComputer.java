@@ -8,9 +8,9 @@ import no.hvl.dat100ptc.oppgave2.GPSDataFileReader;
 import no.hvl.dat100ptc.oppgave3.GPSUtils;
 
 public class GPSComputer {
-	
+
 	private GPSPoint[] gpspoints;
-	
+
 	public GPSComputer(String filename) {
 
 		GPSData gpsdata = GPSDataFileReader.readGPSFile(filename);
@@ -21,11 +21,11 @@ public class GPSComputer {
 	public GPSComputer(GPSPoint[] gpspoints) {
 		this.gpspoints = gpspoints;
 	}
-	
+
 	public GPSPoint[] getGPSPoints() {
 		return this.gpspoints;
 	}
-	
+
 	// beregn total distances (i meter)
 	public double totalDistance() {
 
@@ -34,9 +34,9 @@ public class GPSComputer {
 		for (int i = 0; i < gpspoints.length - 1; i++) {
 			distance += GPSUtils.distance(gpspoints[i], gpspoints[i + 1]);
 			//distance = distance + GPSUtils.distance(gpspoints[i], gpspoints[i + 1]); samme som
-			
+
 		}
-		
+
 		return distance;
 
 	}
@@ -47,55 +47,55 @@ public class GPSComputer {
 		double elevation = 0;
 
 		for (int i = 0; i < gpspoints.length - 1; i++) {
-					
+
 			double elevationDiff = (gpspoints[i + 1].getElevation() - gpspoints[i].getElevation());
-			
+
 			if (elevationDiff > 0) {
 				elevation += elevationDiff;
-		
+
 			}
 		}
-		
+
 		return elevation;
 
 	}
 
 	// beregn total tiden for hele turen (i sekunder)
 	public int totalTime() {
-		
+
 		int totalTime = gpspoints[gpspoints.length - 1].getTime() - gpspoints[0].getTime();
-		
+
 		return totalTime;
 	}
-		
+
 	// beregn gjennomsnitshastighets mellom hver av gps punktene
 
 	public double[] speeds() {
-		
+
 		double[] speeds = new double [gpspoints.length - 1];
-		
+
 		for (int i = 0; i < gpspoints.length - 1; i++) {
-			
+
 			speeds[i] = GPSUtils.speed(gpspoints[i], gpspoints[i + 1]);
-			
+
 		}
-		
+
 		return speeds;
 
 	}
-	
+
 	public double maxSpeed() {
-		
+
 		double maxspeed = GPSUtils.findMax(speeds());
-		
+
 		return maxspeed;
-		
+
 	}
 
 	public double averageSpeed() {
 
 		double average = totalDistance() / totalTime() * 3.6;
-		
+
 		return average;
 		
 	}
@@ -120,7 +120,7 @@ public class GPSComputer {
 		// MET: Metabolic equivalent of task angir (kcal x kg-1 x h-1)
 		double met = 0;		
 		double speedmph = speed * MS;
-		
+
 		if (speedmph < 10) {
 			met = 4.0;
 		} 
@@ -139,34 +139,34 @@ public class GPSComputer {
 		else {
 			met = 16.0;
 		}
-			
+
 		kcal = met * weight * secs / 3600;
-		
+
 		return kcal;
 		//kcals per sec
 	}
-	
+
 	private static double WEIGHT = 80.0;
-	
+
 	public double totalKcal(double weight) {
 
 		double totalkcal = kcal(weight, totalTime(), averageSpeed()) * totalTime();
-		
+
 		return totalkcal / WEIGHT;
-		
+
 	}
-	
-	//private static double WEIGHT = 80.0; flyttet den opp så den gav mening.
-	
+
+	//private static double WEIGHT = 80.0; //flyttet den opp så den gav mening.
+
 	public void displayStatistics() {
-		
+
 		int time = totalTime();
 		double distance = totalDistance() / 1000;    // /1000 for å gjøre om til km
 		double elevation = totalElevation();
 		double maxSpeed = maxSpeed();
 		double averageSpeed = averageSpeed();
 		double energy = totalKcal(WEIGHT);
-		
+
 		System.out.println("==============================================");
 		System.out.println("Total Time     :" + GPSUtils.formatTime(time));
 		System.out.println("Total distance :" + distance + " km");
