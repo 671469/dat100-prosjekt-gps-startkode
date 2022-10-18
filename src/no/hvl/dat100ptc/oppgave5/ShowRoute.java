@@ -44,7 +44,7 @@ public class ShowRoute extends EasyGraphics {
 
 		double maxlon = GPSUtils.findMax(GPSUtils.getLongitudes(gpspoints));
 		double minlon = GPSUtils.findMin(GPSUtils.getLongitudes(gpspoints));
-
+		
 		double xstep = MAPXSIZE / (Math.abs(maxlon - minlon)); 
 
 		return xstep;
@@ -52,24 +52,28 @@ public class ShowRoute extends EasyGraphics {
 
 	// antall y-pixels per breddegrad
 	public double ystep() {
-	
-		double ystep;
+			
+		double maxlat = GPSUtils.findMax(GPSUtils.getLatitudes(gpspoints));
+		double minlat = GPSUtils.findMin(GPSUtils.getLatitudes(gpspoints));
 		
-		// TODO - START
+		double ystep = MAPYSIZE / (Math.abs(maxlat - minlat));
 		
-		throw new UnsupportedOperationException(TODO.method());
-
-		// TODO - SLUTT
+		return ystep;
 		
 	}
 
 	public void showRouteMap(int ybase) {
+		
+		for (int i = 0; i < gpspoints.length - 1; i++) {
 
-		// TODO - START
-		
-		throw new UnsupportedOperationException(TODO.method());
-		
-		// TODO - SLUTT
+			int xOne = (int) (gpspoints[i].getLongitude()* xstep());
+			int yOne = (int) (gpspoints[i].getLatitude() * ystep());
+			int xTwo = (int) (gpspoints[i + 1].getLongitude() * xstep());
+			int yTwo = (int) (gpspoints[i + 1].getLatitude() * ystep());
+			
+			setColor(22, 100, 8);
+			drawLine(xOne, yOne, xTwo, yTwo);
+		}
 	}
 
 	public void showStatistics() {
@@ -81,7 +85,7 @@ public class ShowRoute extends EasyGraphics {
 		
 		// TODO - START
 		
-		throw new UnsupportedOperationException(TODO.method());
+		//throw new UnsupportedOperationException(TODO.method());
 		
 		// TODO - SLUTT;
 	}
