@@ -105,7 +105,6 @@ public class GPSUtils {
 		int sec = (secs % 3600) % 60;
 
 		timestr = String.format("  %02d:%02d:%02d", hr, min, sec);
-		//timestr = String.format("%10s", String.format("%02d:%02d:%02d", hr, min, sec)); kan også gjøres slik, setter antall siffer på strengen til 10
 
 		return timestr;
 

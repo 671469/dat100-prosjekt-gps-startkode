@@ -57,7 +57,9 @@ public class ShowProfile extends EasyGraphics {
 
 			setColor(0, 0, 255);
 
-			/*if (i % 2 == 0) {
+			/* Vurderte også å bruke en if else setning til å prøve å lage en fargeendring ved oddetall/partall. 
+			 Valgte isteden å legge til mellomrom mellom x-verdiene.
+			 if (i % 2 == 0) {
 			    setColor(0, 255, 0);
 			} else {
 			   setColor(0, 0, 255);

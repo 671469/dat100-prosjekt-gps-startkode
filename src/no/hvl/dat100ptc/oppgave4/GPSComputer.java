@@ -140,24 +140,43 @@ public class GPSComputer {
 			met = 16.0;
 		}
 
-		kcal = met * weight * secs / 3600;
+		kcal = met * weight * (secs / 3600.0);
 
 		return kcal;
 		//kcals per sec
 	}
 
-	private static double WEIGHT = 80.0;
-
 	public double totalKcal(double weight) {
 
 		double totalkcal = kcal(weight, totalTime(), averageSpeed()) * totalTime();
-
+		
 		return totalkcal / WEIGHT;
-
+		
 	}
+	
+	private static double WEIGHT = 80.0;
+	
+	//for å få oppg 5c) til å virke, last minute. Ikke den beste løsningen.
+	public String[] getStatistics() {
+        String[] results = new String[6];
 
-	//private static double WEIGHT = 80.0; //flyttet den opp så den gav mening.
+        int time = totalTime();
+        double distance = totalDistance() / 1000;    // /1000 for å gjøre om til km
+        double elevation = totalElevation();
+        double maxSpeed = maxSpeed();
+        double averageSpeed = averageSpeed();
+        double energy = totalKcal(WEIGHT);
 
+        results[0] = "Total Time     :" + GPSUtils.formatTime(time) ;
+        results[1] = "Total distance :" + distance + " km";
+        results[2] = "Total distance :" + distance + " km";
+        results[3] = "Max speed      :" + maxSpeed + " km/t";
+        results[4] = "Average speed  :" + averageSpeed + " km/t";
+        results[5] = "Energy         :" + totalKcal(WEIGHT) + " kcal" ;
+
+        return results;
+    }
+	
 	public void displayStatistics() {
 
 		int time = totalTime();

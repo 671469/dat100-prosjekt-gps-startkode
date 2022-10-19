@@ -65,14 +65,23 @@ public class ShowRoute extends EasyGraphics {
 	public void showRouteMap(int ybase) {
 		
 		for (int i = 0; i < gpspoints.length - 1; i++) {
-
-			int xOne = (int) (gpspoints[i].getLongitude()* xstep());
-			int yOne = (int) (gpspoints[i].getLatitude() * ystep());
-			int xTwo = (int) (gpspoints[i + 1].getLongitude() * xstep());
-			int yTwo = (int) (gpspoints[i + 1].getLatitude() * ystep());
 			
+			double xOne = (gpspoints[i].getLongitude() - GPSUtils.findMin(GPSUtils.getLongitudes(gpspoints))) * xstep();
+			double yOne = (gpspoints[i].getLatitude() - GPSUtils.findMin(GPSUtils.getLatitudes(gpspoints))) * ystep();
+			double xTwo = (gpspoints[i + 1].getLongitude() - GPSUtils.findMin(GPSUtils.getLongitudes(gpspoints))) * xstep();
+			double yTwo = (gpspoints[i + 1].getLatitude() - GPSUtils.findMin(GPSUtils.getLatitudes(gpspoints))) * ystep();
+			
+			//lager en sirkel for hvert punkt og siste sirkel skal være blå
+			if (i == gpspoints.length - 2) {
+				setColor(0, 0, 255);
+				fillCircle(MARGIN + (int) xOne, (int) (ybase - yOne), 7);
+			} else {
+				setColor(0, 255, 51);
+				fillCircle(MARGIN + (int) xOne, (int) (ybase - yOne), 3);
+			}
+
 			setColor(22, 100, 8);
-			drawLine(xOne, yOne, xTwo, yTwo);
+			drawLine(MARGIN + (int) xOne, (int)(ybase - yOne), MARGIN + (int) xTwo, (int)(ybase - yTwo));
 		}
 	}
 
@@ -82,12 +91,13 @@ public class ShowRoute extends EasyGraphics {
 
 		setColor(0,0,0);
 		setFont("Courier",12);
-		
-		// TODO - START
-		
-		//throw new UnsupportedOperationException(TODO.method());
-		
-		// TODO - SLUTT;
+
+		String[] stats = gpscomputer.getStatistics();
+
+		for (int i = 0; i < stats.length; i++) {
+            drawString(stats[i], MARGIN, MARGIN + (i * TEXTDISTANCE));
+        }
+
 	}
 
 }
